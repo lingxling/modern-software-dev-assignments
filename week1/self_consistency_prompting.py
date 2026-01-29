@@ -9,7 +9,21 @@ load_dotenv()
 NUM_RUNS_TIMES = 5
 
 # TODO: Fill this in! Try to get as close to 100% correctness across all runs as possible.
-YOUR_SYSTEM_PROMPT = ""
+YOUR_SYSTEM_PROMPT = """Solve word problems step-by-step using clear mathematical reasoning.
+
+For distance problems:
+1. Identify the total distance and all stopping points
+2. Calculate the position of each stop in miles from the start
+3. Find the distance between consecutive stops by subtracting their positions
+4. Verify your calculations make sense within the problem context
+
+Follow this format:
+- Step 1: [Identify given information]
+- Step 2: [Calculate positions]
+- Step 3: [Find the required distance]
+- Step 4: [Verify the answer]
+
+Always show your work clearly and give the final answer in the format "Answer: <number>" on the last line."""
 
 USER_PROMPT = """
 Solve this problem, then give the final answer on the last line as "Answer: <number>".

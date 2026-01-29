@@ -37,7 +37,25 @@ QUESTION = (
 
 
 # TODO: Fill this in!
-YOUR_SYSTEM_PROMPT = ""
+YOUR_SYSTEM_PROMPT = """
+You are a Python coding assistant specializing in API integration.
+Your task is to generate a Python function that calls a documented API endpoint and returns specific data.
+
+Key requirements:
+- Only use information provided in the context
+- Follow best practices for HTTP requests in Python
+- Include necessary imports (e.g., requests)
+- Handle authentication correctly
+- Validate inputs appropriately
+- Return only the requested data
+- Include error handling for API responses
+
+Output format:
+- Provide only the Python code enclosed in triple backticks
+- Include all necessary imports at the top
+- The function must be named exactly as requested
+"""
+
 
 
 # For this simple example
@@ -52,11 +70,11 @@ REQUIRED_SNIPPETS = [
 
 
 def YOUR_CONTEXT_PROVIDER(corpus: List[str]) -> List[str]:
-    """TODO: Select and return the relevant subset of documents from CORPUS for this task.
+    """Select and return the relevant subset of documents from CORPUS for this task.
 
     For example, return [] to simulate missing context, or [corpus[0]] to include the API docs.
     """
-    return []
+    return [corpus[0]]
 
 
 def make_user_prompt(question: str, context_docs: List[str]) -> str:

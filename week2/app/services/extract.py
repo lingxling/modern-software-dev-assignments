@@ -87,3 +87,126 @@ def _looks_imperative(sentence: str) -> bool:
         "investigate",
     }
     return first.lower() in imperative_starters
+
+
+def extract_action_items_llm(text: str) -> List[str]:
+    """
+    Extract action items from text using an LLM via Ollama.
+    
+    Args:
+        text: Input text to extract action items from
+    
+    Returns:
+        List of extracted action items as strings
+    """
+    print(f"\n=== LLM Extraction Started ===")
+    print(f"Input text: {text}")
+    
+    if not text.strip():
+        print("Empty input, returning empty list")
+        return []
+    
+    # System prompt to define the output format
+    system_prompt = """You are an action item extractor. Your task is to identify and extract action items from the given text.
+
+Action items are tasks, assignments, or things that need to be done. They can be:
+- Explicitly marked with bullets (-, *, •), numbers (1., 2.), or checkboxes ([ ])
+- Prefixed with keywords like "todo:", "action:", "next:"
+- Imperative sentences describing tasks (e.g., "Review the code", "Update the documentation")
+
+You must respond ONLY with valid JSON in the following format:
+{
+  "action_items": [
+    "action item 1",
+    "action item 2",
+    ...
+  ]
+}
+
+Do not include any explanations, notes, or additional text outside the JSON structure."""
+    
+    # User prompt with the actual text to process
+    user_prompt = f"""Extract all action items from the following text:
+
+{text}
+
+Return the extracted action items as a JSON array."""
+    
+    print(f"System prompt: {system_prompt[:100]}...")  # Truncate for readability
+    print(f"User prompt: {user_prompt}")
+    
+    try:
+        # Call Ollama with structured output
+        print("Calling Ollama chat API...")
+        response = chat(
+            model="llama3.1:8b",  # Using llama3 as a starting point
+            messages=[
+                {
+                    "role": "system",
+                    "content": system_prompt
+                },
+                {
+                    "role": "user",
+                    "content": user_prompt
+                }
+            ],
+            format="json"
+        )
+        
+        print(f"Ollama response: {response}")
+        
+        # Parse the response
+        content = ""
+        
+        # Handle different response structures
+        if hasattr(response, "message"):
+            # Case 1: response is an object with message attribute
+            print(f"Response has message attribute: {type(response.message)}")
+            if hasattr(response.message, "content"):
+                content = response.message.content
+                print(f"Content from Message object: {content}")
+            else:
+                print("Message object has no content attribute")
+        elif isinstance(response, dict) and "message" in response:
+            # Case 2: response is a dict with message key
+            message = response["message"]
+            print(f"Message is dict: {isinstance(message, dict)}")
+            if isinstance(message, dict):
+                content = message.get("content", "")
+                print(f"Content from dict: {content}")
+            elif hasattr(message, "content"):
+                content = message.content
+                print(f"Content from Message-like object: {content}")
+            else:
+                print("Unknown message type")
+        else:
+            print(f"Unexpected response structure: {type(response)}")
+            print(f"Response: {response}")
+        
+        if content:
+            try:
+                parsed = json.loads(content)
+                print(f"Parsed JSON: {parsed}")
+                action_items = parsed.get("action_items", [])
+                print(f"Extracted action items: {action_items}")
+                # Ensure we return a list of strings
+                if isinstance(action_items, list):
+                    result = [str(item) for item in action_items]
+                    print(f"Final result: {result}")
+                    return result
+                print("action_items is not a list, returning empty list")
+                return []
+            except json.JSONDecodeError as e:
+                # Fallback if JSON parsing fails
+                print(f"JSON decode error: {e}")
+                return []
+        print("No content found, returning empty list")
+        return []
+    except Exception as e:
+        # Fallback to heuristic method if LLM fails
+        print(f"Exception occurred: {e}")
+        import traceback
+        traceback.print_exc()
+        fallback_result = extract_action_items(text)
+        print(f"Fallback to heuristic method, result: {fallback_result}")
+        return fallback_result

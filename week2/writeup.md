@@ -22,58 +22,66 @@ For each exercise, please include what prompts you used to generate the answer, 
 ### Exercise 1: Scaffold a New Feature
 Prompt: 
 ```
-TODO
+Implement an LLM-powered alternative to extract_action_items() function, called extract_action_items_llm(), that utilizes Ollama to perform action item extraction via a large language model. Include proper error handling and fallback to the heuristic method if LLM fails.
 ``` 
 
 Generated Code Snippets:
 ```
-TODO: List all modified code files with the relevant line numbers.
+week2/app/services/extract.py:92-174
 ```
 
 ### Exercise 2: Add Unit Tests
 Prompt: 
 ```
-TODO
+Write unit tests for extract_action_items_llm() covering multiple inputs (e.g., bullet lists, keyword-prefixed lines, empty input) in week2/tests/test_extract.py.
 ``` 
 
 Generated Code Snippets:
 ```
-TODO: List all modified code files with the relevant line numbers.
+week2/tests/test_extract.py:4-64
 ```
 
 ### Exercise 3: Refactor Existing Code for Clarity
 Prompt: 
 ```
-TODO
+Refactor the backend code for clarity, focusing on well-defined API contracts/schemas, database layer cleanup, app lifecycle/configuration, and error handling. Create Pydantic schemas for API requests and responses, and update routers to use these schemas.
 ``` 
 
 Generated/Modified Code Snippets:
 ```
-TODO: List all modified code files with the relevant line numbers. (We anticipate there may be multiple scattered changes here – just produce as comprehensive of a list as you can.)
+week2/app/schemas.py:1-60
+week2/app/routers/action_items.py:1-58
+week2/app/routers/notes.py:1-54
 ```
 
 
 ### Exercise 4: Use Agentic Mode to Automate a Small Task
 Prompt: 
 ```
-TODO
+1. Integrate the LLM-powered extraction as a new endpoint. Update the frontend to include an "Extract LLM" button that, when clicked, triggers the extraction process via the new endpoint.
+2. Expose one final endpoint to retrieve all notes. Update the frontend to include a "List Notes" button that, when clicked, fetches and displays them.
 ``` 
 
 Generated Code Snippets:
 ```
-TODO: List all modified code files with the relevant line numbers.
+week2/app/routers/action_items.py:38-52
+week2/frontend/index.html:24-130
 ```
 
 
 ### Exercise 5: Generate a README from the Codebase
 Prompt: 
 ```
-TODO
+Use Cursor to analyze the current codebase and generate a well-structured README.md file. The README should include, at a minimum:
+- A brief overview of the project
+- How to set up and run the project
+- API endpoints and functionality
+- Instructions for running the test suite
 ``` 
 
 Generated Code Snippets:
 ```
-TODO: List all modified code files with the relevant line numbers.
+week2/README.md:1-180
 ```
 
 

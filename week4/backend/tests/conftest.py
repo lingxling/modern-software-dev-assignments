@@ -36,4 +36,11 @@ def client() -> Generator[TestClient, None, None]:
     with TestClient(app) as c:
         yield c
 
-    os.unlink(db_path)
+    # Close all connections before deleting the file
+    engine.dispose()
+
+    # Try to delete the file, ignore if it fails (Windows sometimes holds locks)
+    try:
+        os.unlink(db_path)
+    except PermissionError:
+        pass

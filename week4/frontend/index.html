@@ -7,34 +7,34 @@
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
-    <main>
-      <h1>Modern Software Dev Starter</h1>
+    <main class="app-container">
+      <h1 class="app-title">Modern Software Dev Starter</h1>
 
-      <section>
-        <h2>Notes</h2>
+      <section class="app-section">
+        <h2 class="section-title">Notes</h2>
         <div class="search-bar">
-          <input type="text" id="note-search" placeholder="Search notes..." />
-          <button id="search-btn">Search</button>
-          <button id="clear-search">Clear</button>
+          <input type="text" id="note-search" class="search-bar__input" placeholder="Search notes..." />
+          <button id="search-btn" class="btn btn--secondary">Search</button>
+          <button id="clear-search" class="btn btn--secondary">Clear</button>
         </div>
-        <form id="note-form">
-          <input id="note-title" placeholder="Title" required />
-          <textarea id="note-content" placeholder="Content" required></textarea>
-          <button type="submit">Add Note</button>
+        <form id="note-form" class="form">
+          <input id="note-title" class="form__input" placeholder="Title" required />
+          <textarea id="note-content" class="form__textarea" placeholder="Content" required></textarea>
+          <button type="submit" class="btn btn--primary">Add Note</button>
         </form>
-        <div id="notes-container">
-          <h3>Notes List</h3>
-          <ul id="notes"></ul>
+        <div id="notes-container" class="notes-container">
+          <h3 class="subsection-title">Notes List</h3>
+          <ul id="notes" class="list"></ul>
         </div>
       </section>
 
-      <section>
-        <h2>Action Items</h2>
-        <form id="action-form">
-          <input id="action-desc" placeholder="Description" required />
-          <button type="submit">Add</button>
+      <section class="app-section">
+        <h2 class="section-title">Action Items</h2>
+        <form id="action-form" class="form">
+          <input id="action-desc" class="form__input" placeholder="Description" required />
+          <button type="submit" class="btn btn--primary">Add</button>
         </form>
-        <ul id="actions"></ul>
+        <ul id="actions" class="list"></ul>
       </section>
     </main>
 

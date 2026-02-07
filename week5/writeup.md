@@ -27,7 +27,7 @@ This assignment took me about **8** hours to do.
 - Backend API documentation
 
 **Outputs**:
-- Vite + React project structure in `frontend/ui/` directory
+- Vite + React project structure in `frontend/` directory
 - React components for Notes and Action Items with complete CRUD functionality
 - Tailwind CSS styled responsive UI
 - Component tests with React Testing Library (`App.test.jsx`)
@@ -37,7 +37,7 @@ This assignment took me about **8** hours to do.
 **Steps**:
 1. **Analysis**: Use Code Archaeologist to analyze existing codebase structure and API endpoints
 2. **Setup**: Update MakefileWin to include Vite-related targets
-3. **Initialization**: Create Vite + React project in `frontend/ui` directory
+3. **Initialization**: Create Vite + React project in `frontend` directory
 4. **Implementation**: Build React components with CRUD functionality for Notes and Action Items
 5. **Styling**: Configure Tailwind CSS v4 and style components with utility-first classes
 6. **Testing**: Add component tests with React Testing Library
@@ -61,8 +61,8 @@ This assignment took me about **8** hours to do.
 
 #### c. Autonomy levels used for each completed task (what code permissions, why, and how you supervised)
 - **Code Archaeologist**: Full read access to analyze codebase structure and API endpoints
-- **Frontend Developer**: Full write access to `frontend/ui` directory to implement React components
-- **Tailwind Expert**: Full write access to `frontend/ui` directory to configure and apply Tailwind styles
+- **Frontend Developer**: Full write access to `frontend` directory to implement React components
+- **Tailwind Expert**: Full write access to `frontend` directory to configure and apply Tailwind styles
 - **Backend Developer**: Full write access to `backend` directory to update static file mounting configuration
 - **Code Reviewer**: Read access to all files to review code quality and provide feedback
 

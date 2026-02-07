@@ -19,7 +19,7 @@
 |-----------|---------|-----------|-------------------|
 | 后端API | 提供笔记和动作项的CRUD操作 | backend/app/main.py, backend/app/routers/ | FastAPI, SQLAlchemy |
 | 数据库 | 存储笔记和动作项数据 | backend/app/models.py, data/seed.sql | SQLite |
-| 前端UI | 提供用户交互界面 | frontend/ui/src/App.jsx, frontend/ui/vite.config.js | React, Vite, Tailwind CSS |
+| 前端UI | 提供用户交互界面 | frontend/src/App.jsx, frontend/vite.config.js | React, Vite, Tailwind CSS |
 | Vercel部署 | 配置应用部署到Vercel | vercel.json, api/index.py | Vercel CLI |
 
 ## 3. Data & Control Flow
@@ -48,8 +48,8 @@
   - backend/app/schemas.py: 数据传输对象
   - backend/app/db.py: 数据库连接管理
   - backend/app/services/: 业务逻辑服务
-  - frontend/ui/src/App.jsx: 前端主组件
-  - frontend/ui/vite.config.js: Vite配置
+  - frontend/src/App.jsx: 前端主组件
+  - frontend/vite.config.js: Vite配置
 
 ## 5. Quality Metrics
 | Metric | Value | Notes |
@@ -63,13 +63,13 @@
 | Issue | Location | Severity | Recommendation |
 |-------|----------|----------|----------------|
 | 缺乏输入验证 | backend/app/routers/ | Medium | 在API端点中添加更严格的输入验证 |
-| 前端没有CSRF保护 | frontend/ui/src/App.jsx | Low | 添加CSRF令牌验证 |
+| 前端没有CSRF保护 | frontend/src/App.jsx | Low | 添加CSRF令牌验证 |
 
 ## 7. Performance Assessment
 | Bottleneck | Evidence | Impact | Suggested Fix |
 |------------|----------|--------|---------------|
 | 数据库查询效率 | backend/app/routers/ | Low | 添加索引优化查询性能 |
-| 前端频繁API调用 | frontend/ui/src/App.jsx | Low | 实现本地缓存减少API调用 |
+| 前端频繁API调用 | frontend/src/App.jsx | Low | 实现本地缓存减少API调用 |
 
 ## 8. Technical Debt & Code Smells
 - 后端缺乏错误处理和日志记录

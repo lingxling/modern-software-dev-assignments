@@ -55,8 +55,7 @@ Open `http://localhost:8000` for the frontend and `http://localhost:8000/docs` f
 
 ```
 backend/                # FastAPI app
-frontend/
-  ├── ui/               # Vite + React frontend
+frontend/               # Vite + React frontend
   └── dist/             # Built frontend files (served by FastAPI)
 data/                   # SQLite DB + seed
 docs/                   # TASKS for agent-driven workflows
@@ -74,7 +73,7 @@ cd week5 && make -f MakefileWin test
 ### Frontend tests
 
 ```bash
-cd week5/frontend/ui && npm test
+cd week5/frontend && npm test
 ```
 
 ## Formatting/Linting
@@ -89,7 +88,7 @@ cd week5 && make -f MakefileWin lint
 ### Frontend
 
 ```bash
-cd week5/frontend/ui && npm run lint
+cd week5/frontend && npm run lint
 ```
 
 ## Configuration

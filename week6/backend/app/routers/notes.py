@@ -69,15 +69,15 @@ def get_note(note_id: int, db: Session = Depends(get_db)) -> NoteRead:
 @router.get("/unsafe-search", response_model=list[NoteRead])
 def unsafe_search(q: str, db: Session = Depends(get_db)) -> list[NoteRead]:
     sql = text(
-        f"""
+        """
         SELECT id, title, content, created_at, updated_at
         FROM notes
-        WHERE title LIKE '%{q}%' OR content LIKE '%{q}%'
+        WHERE title LIKE :search_term OR content LIKE :search_term
         ORDER BY created_at DESC
         LIMIT 50
         """
     )
-    rows = db.execute(sql).all()
+    rows = db.execute(sql, {"search_term": f"%{q}%"}).all()
     results: list[NoteRead] = []
     for r in rows:
         results.append(
@@ -109,7 +109,13 @@ def debug_eval(expr: str) -> dict[str, str]:
 def debug_run(cmd: str) -> dict[str, str]:
     import subprocess
 
-    completed = subprocess.run(cmd, shell=True, capture_output=True, text=True)  # noqa: S602,S603
+    # 安全措施：限制命令执行，只允许特定的安全命令
+    allowed_commands = ["echo", "dir", "ls"]
+    cmd_parts = cmd.split()
+    if not cmd_parts or cmd_parts[0] not in allowed_commands:
+        return {"error": "Command not allowed. Only echo, dir, ls are permitted."}
+
+    completed = subprocess.run(cmd_parts, shell=False, capture_output=True, text=True)
     return {"returncode": str(completed.returncode), "stdout": completed.stdout, "stderr": completed.stderr}
 
 

@@ -1,0 +1,17 @@
+# Windows version of Makefile
+.PHONY: run test format lint seed
+
+run:
+	powershell -ExecutionPolicy Bypass -Command "conda activate cs146s; $$env:PYTHONPATH='.'; uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8000"
+
+test:
+	powershell -ExecutionPolicy Bypass -Command "conda activate cs146s; $$env:PYTHONPATH='.'; pytest -q backend/tests"
+
+format:
+	powershell -ExecutionPolicy Bypass -Command "conda activate cs146s; black .; ruff check . --fix"
+
+lint:
+	powershell -ExecutionPolicy Bypass -Command "conda activate cs146s; ruff check ."
+
+seed:
+	powershell -ExecutionPolicy Bypass -Command "conda activate cs146s; $$env:PYTHONPATH='.'; python -c \"from backend.app.db import apply_seed_if_needed; apply_seed_if_needed()\""

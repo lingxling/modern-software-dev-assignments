@@ -36,4 +36,19 @@ def client() -> Generator[TestClient, None, None]:
     with TestClient(app) as c:
         yield c
 
-    os.unlink(db_path)
+    # 清理依赖覆盖
+    app.dependency_overrides.clear()
+    # 关闭引擎
+    engine.dispose()
+    # 尝试删除文件，处理Windows文件锁定问题
+    import time
+    for _ in range(5):
+        try:
+            os.unlink(db_path)
+            break
+        except PermissionError:
+            time.sleep(0.1)
+    else:
+        # 如果仍然无法删除，记录警告
+        import warnings
+        warnings.warn(f"无法删除临时数据库文件: {db_path}")

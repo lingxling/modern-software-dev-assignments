@@ -19,7 +19,7 @@
 |-----------|---------|-----------|-------------------|
 | 后端API | 提供笔记和动作项的CRUD操作 | backend/app/main.py, backend/app/routers/ | FastAPI, SQLAlchemy |
 | 数据库 | 存储笔记和动作项数据 | backend/app/models.py, data/seed.sql | SQLite |
-| 前端UI | 提供用户交互界面 | frontend/src/App.jsx, frontend/vite.config.js | React, Vite, Tailwind CSS |
+| 前端UI | 提供用户交互界面 | frontend/src/App.jsx, frontend/vite.config.js, frontend/tailwind.config.js | React, Vite, Tailwind CSS, Inter Font |
 | Vercel部署 | 配置应用部署到Vercel | vercel.json, api/index.py | Vercel CLI |
 
 ## 3. Data & Control Flow
@@ -108,12 +108,16 @@
 - **PUT /action-items/{item_id}/complete**: 标记动作项为完成
 
 ### 前端功能
-- 显示笔记列表
-- 添加新笔记
-- 显示动作项列表
-- 添加新动作项
-- 标记动作项为完成
-- 响应式UI设计（Tailwind CSS）
+- 显示笔记列表，支持空状态处理和动画效果
+- 添加新笔记，包含表单验证和视觉反馈
+- 显示动作项列表，支持完成状态标记和动画效果
+- 添加新动作项，包含表单验证和视觉反馈
+- 标记动作项为完成，提供平滑的状态切换动画
+- 响应式UI设计，适配不同屏幕尺寸
+- 现代化视觉设计，包括卡片布局、阴影效果、渐变色彩
+- 平滑的动画和过渡效果，提升用户体验
+- 优化的字体排版和色彩方案，使用Inter字体和现代色彩系统
+- 微交互细节，如悬停效果、按钮状态变化、滚动条美化
 
 ### 数据库结构
 

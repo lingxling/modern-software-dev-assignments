@@ -1,4 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
+import Header from './components/Header'
+import SearchBar from './components/SearchBar'
+import NotesSection from './components/NotesSection'
+import ActionItemsSection from './components/ActionItemsSection'
 
 // Get API base URL from environment variable
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
@@ -8,151 +12,237 @@ function App() {
   const [actionItems, setActionItems] = useState([])
   const [newNote, setNewNote] = useState({ title: '', content: '' })
   const [newAction, setNewAction] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
+  const [darkMode, setDarkMode] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [editingNote, setEditingNote] = useState(null)
+  const [editingAction, setEditingAction] = useState(null)
+
+  // Check for dark mode preference on load
+  useEffect(() => {
+    const isDark = localStorage.getItem('darkMode') === 'true' || 
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    setDarkMode(isDark)
+    if (isDark) {
+      document.documentElement.classList.add('dark')
+    }
+  }, [])
+
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    const newMode = !darkMode
+    setDarkMode(newMode)
+    localStorage.setItem('darkMode', newMode)
+    if (newMode) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }
 
   // Fetch notes
   useEffect(() => {
-    fetch(`${API_BASE_URL}/notes/`)
-      .then(res => res.json())
-      .then(data => setNotes(data))
-      .catch(err => console.error('Error fetching notes:', err))
+    const fetchNotes = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/notes/`)
+        const data = await res.json()
+        setNotes(data)
+      } catch (err) {
+        console.error('Error fetching notes:', err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchNotes()
   }, [])
 
   // Fetch action items
   useEffect(() => {
-    fetch(`${API_BASE_URL}/action-items/`)
-      .then(res => res.json())
-      .then(data => setActionItems(data))
-      .catch(err => console.error('Error fetching action items:', err))
+    const fetchActionItems = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/action-items/`)
+        const data = await res.json()
+        setActionItems(data)
+      } catch (err) {
+        console.error('Error fetching action items:', err)
+      }
+    }
+
+    fetchActionItems()
   }, [])
 
   // Add new note
-  const handleAddNote = (e) => {
+  const handleAddNote = async (e) => {
     e.preventDefault()
-    fetch(`${API_BASE_URL}/notes/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newNote)
-    })
-      .then(res => res.json())
-      .then(data => {
-        setNotes([...notes, data])
-        setNewNote({ title: '', content: '' })
+    try {
+      const res = await fetch(`${API_BASE_URL}/notes/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newNote)
       })
-      .catch(err => console.error('Error adding note:', err))
+      const data = await res.json()
+      setNotes([...notes, data])
+      setNewNote({ title: '', content: '' })
+    } catch (err) {
+      console.error('Error adding note:', err)
+    }
   }
 
   // Add new action item
-  const handleAddAction = (e) => {
+  const handleAddAction = async (e) => {
     e.preventDefault()
-    fetch(`${API_BASE_URL}/action-items/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ description: newAction })
-    })
-      .then(res => res.json())
-      .then(data => {
-        setActionItems([...actionItems, data])
-        setNewAction('')
+    try {
+      const res = await fetch(`${API_BASE_URL}/action-items/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ description: newAction })
       })
-      .catch(err => console.error('Error adding action item:', err))
+      const data = await res.json()
+      setActionItems([...actionItems, data])
+      setNewAction('')
+    } catch (err) {
+      console.error('Error adding action item:', err)
+    }
   }
 
   // Mark action item as complete
-  const handleCompleteAction = (id) => {
-    fetch(`${API_BASE_URL}/action-items/${id}/complete`, {
-      method: 'PUT'
-    })
-      .then(res => res.json())
-      .then(data => {
-        setActionItems(actionItems.map(item => 
-          item.id === id ? { ...item, completed: true } : item
-        ))
+  const handleCompleteAction = async (id) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/action-items/${id}/complete`, {
+        method: 'PUT'
       })
-      .catch(err => console.error('Error completing action item:', err))
+      const data = await res.json()
+      setActionItems(actionItems.map(item => 
+        item.id === id ? { ...item, completed: true } : item
+      ))
+    } catch (err) {
+      console.error('Error completing action item:', err)
+    }
   }
 
+  // Edit note
+  const handleEditNote = (note) => {
+    setEditingNote(note)
+  }
+
+  // Save edited note
+  const handleSaveNote = async (e) => {
+    e.preventDefault()
+    if (!editingNote) return
+    try {
+      const res = await fetch(`${API_BASE_URL}/notes/${editingNote.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(editingNote)
+      })
+      const data = await res.json()
+      setNotes(notes.map(note => 
+        note.id === editingNote.id ? data : note
+      ))
+      setEditingNote(null)
+    } catch (err) {
+      console.error('Error updating note:', err)
+    }
+  }
+
+  // Cancel editing note
+  const handleCancelEditNote = () => {
+    setEditingNote(null)
+  }
+
+  // Edit action item
+  const handleEditAction = (item) => {
+    setEditingAction(item)
+  }
+
+  // Save edited action item
+  const handleSaveAction = async (e) => {
+    e.preventDefault()
+    if (!editingAction) return
+    try {
+      const res = await fetch(`${API_BASE_URL}/action-items/${editingAction.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(editingAction)
+      })
+      const data = await res.json()
+      setActionItems(actionItems.map(item => 
+        item.id === editingAction.id ? data : item
+      ))
+      setEditingAction(null)
+    } catch (err) {
+      console.error('Error updating action item:', err)
+    }
+  }
+
+  // Cancel editing action item
+  const handleCancelEditAction = () => {
+    setEditingAction(null)
+  }
+
+  // Filtered notes
+  const filteredNotes = useMemo(() => 
+    notes.filter(note => 
+      note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      note.content.toLowerCase().includes(searchQuery.toLowerCase())
+    ),
+    [notes, searchQuery]
+  )
+
+  // Filtered action items
+  const filteredActionItems = useMemo(() => 
+    actionItems.filter(item => 
+      item.description.toLowerCase().includes(searchQuery.toLowerCase())
+    ),
+    [actionItems, searchQuery]
+  )
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Modern Software Dev Starter</h1>
+    <div className="container mx-auto px-4 py-8 max-w-4xl">
+      {/* Header */}
+      <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      
+      {/* Search Bar */}
+      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
-      <section className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200">Notes</h2>
-        <form onSubmit={handleAddNote} className="flex flex-wrap gap-3 mb-6">
-          <input
-            type="text"
-            placeholder="Title"
-            value={newNote.title}
-            onChange={(e) => setNewNote({ ...newNote, title: e.target.value })}
-            required
-            className="flex-1 min-w-[200px] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
-          <input
-            type="text"
-            placeholder="Content"
-            value={newNote.content}
-            onChange={(e) => setNewNote({ ...newNote, content: e.target.value })}
-            required
-            className="flex-1 min-w-[200px] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
-          <button 
-            type="submit"
-            className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-medium"
-          >
-            Add
-          </button>
-        </form>
-        <ul className="space-y-3">
-          {notes.map(note => (
-            <li key={note.id} className="p-3 bg-gray-50 rounded-lg border border-gray-100">
-              <strong className="text-gray-800">{note.title}:</strong> <span className="text-gray-600">{note.content}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
+      {/* Notes Section */}
+      <NotesSection 
+        notes={filteredNotes} 
+        newNote={newNote} 
+        setNewNote={setNewNote} 
+        handleAddNote={handleAddNote} 
+        editingNote={editingNote} 
+        setEditingNote={setEditingNote} 
+        handleSaveNote={handleSaveNote} 
+        handleCancelEditNote={handleCancelEditNote} 
+      />
 
-      <section className="bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200">Action Items</h2>
-        <form onSubmit={handleAddAction} className="flex flex-wrap gap-3 mb-6">
-          <input
-            type="text"
-            placeholder="Description"
-            value={newAction}
-            onChange={(e) => setNewAction(e.target.value)}
-            required
-            className="flex-1 min-w-[200px] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
-          <button 
-            type="submit"
-            className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-medium"
-          >
-            Add
-          </button>
-        </form>
-        <ul className="space-y-3">
-          {actionItems.map(item => (
-            <li 
-              key={item.id} 
-              className={`p-3 rounded-lg border flex justify-between items-center ${item.completed ? 'bg-gray-100 border-gray-200' : 'bg-white border-gray-200'}`}
-            >
-              <span className={`${item.completed ? 'line-through text-gray-500' : 'text-gray-800'}`}>
-                {item.description} [{item.completed ? 'done' : 'open'}]
-              </span>
-              {!item.completed && (
-                <button 
-                  onClick={() => handleCompleteAction(item.id)}
-                  className="px-4 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm font-medium"
-                >
-                  Complete
-                </button>
-              )}
-            </li>
-          ))}
-        </ul>
-      </section>
+      {/* Action Items Section */}
+      <ActionItemsSection 
+        actionItems={filteredActionItems} 
+        newAction={newAction} 
+        setNewAction={setNewAction} 
+        handleAddAction={handleAddAction} 
+        handleCompleteAction={handleCompleteAction} 
+        editingAction={editingAction} 
+        setEditingAction={setEditingAction} 
+        handleSaveAction={handleSaveAction} 
+        handleCancelEditAction={handleCancelEditAction} 
+      />
+
+      {/* Footer */}
+      <footer className="mt-12 text-center text-sm text-secondary-500 dark:text-secondary-400">
+        <p>Modern Software Dev Starter © {new Date().getFullYear()}</p>
+      </footer>
     </div>
   )
 }

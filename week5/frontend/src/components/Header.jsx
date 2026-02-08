@@ -13,13 +13,13 @@ const Header = ({ darkMode, toggleDarkMode }) => {
         <Button
           onClick={toggleDarkMode}
           variant="ghost"
-          className="p-3 rounded-full ripple-effect"
+          className="p-3 rounded-full ripple-effect hover:bg-secondary-200 dark:hover:bg-secondary-700 transition-all duration-200"
           aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
         >
           {darkMode ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-secondary-800"
+              className="h-6 w-6 text-secondary-800 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -36,7 +36,7 @@ const Header = ({ darkMode, toggleDarkMode }) => {
           ) : (
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-secondary-600"
+              className="h-6 w-6 text-secondary-600 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

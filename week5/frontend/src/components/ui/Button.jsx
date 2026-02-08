@@ -7,10 +7,10 @@ const SIZE_CLASSES = {
 }
 
 const VARIANT_CLASSES = {
-  primary: 'bg-primary-600 hover:bg-primary-700 text-white',
-  secondary: 'bg-secondary-600 hover:bg-secondary-700 text-white',
+  primary: 'bg-primary-600 hover:bg-primary-700 text-primary-foreground',
+  secondary: 'bg-secondary-600 hover:bg-secondary-700 text-secondary-foreground',
   ghost:
-    'bg-transparent hover:bg-secondary-100 dark:hover:bg-secondary-800 text-secondary-800 dark:text-white',
+    'bg-transparent hover:bg-secondary-100 dark:hover:bg-secondary-800 text-secondary-foreground dark:text-white',
   danger: 'bg-destructive text-destructive-foreground hover:opacity-90',
 }
 
@@ -27,7 +27,7 @@ function Button({
   const variantClass = VARIANT_CLASSES[variant] || VARIANT_CLASSES.primary
 
   const base =
-    'inline-flex items-center justify-center rounded-md font-medium transition focus:outline-none focus:ring-2 focus:ring-offset-2'
+    'inline-flex items-center justify-center rounded-md font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:ring-2 active:ring-offset-2'
 
   return (
     <button

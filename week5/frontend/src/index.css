@@ -10,6 +10,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  --placeholder: #94a3b8;
+
   --background: #f8fafc;
   --foreground: #0f172a;
   --card: #ffffff;
@@ -32,6 +34,7 @@
 }
 
 .dark {
+  --placeholder: #71829a;
   --background: #0f172a;
   --foreground: #f8fafc;
   --card: #1e293b;
@@ -302,4 +305,9 @@ link[rel='icon'] svg,
 head svg {
   width: 32px;
   height: 32px;
+}
+
+::placeholder {
+  color: var(--placeholder);
+  transition: color 0.3s ease;
 }

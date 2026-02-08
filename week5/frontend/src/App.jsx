@@ -108,7 +108,7 @@ function App() {
         handleSaveAction={handleSaveAction} 
         handleCancelEditAction={handleCancelEditAction} 
       />
-      <footer className="mt-12 text-center text-sm text-secondary-500 dark:text-secondary-400">
+      <footer role="contentinfo" className="mt-12 text-center text-sm text-secondary-500 dark:text-secondary-400">
         <p>Modern Software Dev Starter © {new Date().getFullYear()}</p>
       </footer>
     </div>

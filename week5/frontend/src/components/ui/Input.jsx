@@ -11,7 +11,7 @@ const Input = ({
   ...props
 }) => {
   const baseClass =
-    'w-full px-4 py-3 border border-secondary-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-white'
+    'w-full px-4 py-3 border border-secondary-200 dark:border-secondary-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white dark:bg-card dark:text-white'
 
   const inputComponent = (
     <input
@@ -23,12 +23,6 @@ const Input = ({
       required={required}
       disabled={disabled}
       className={`${baseClass} ${disabled ? 'opacity-60 cursor-not-allowed' : ''} ${className}`}
-      style={{ 
-        backgroundColor: 'var(--card)', 
-        borderColor: 'var(--border)', 
-        color: 'var(--foreground)',
-        '--tw-ring-color': 'var(--ring)'
-      }}
       {...props}
     />
   )

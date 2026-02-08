@@ -34,3 +34,15 @@ def complete_item(item_id: int, db: Session = Depends(get_db)) -> ActionItemRead
     db.flush()
     db.refresh(item)
     return ActionItemRead.model_validate(item)
+
+
+@router.put("/{item_id}", response_model=ActionItemRead)
+def update_action_item(item_id: int, payload: ActionItemCreate, db: Session = Depends(get_db)) -> ActionItemRead:
+    item = db.get(ActionItem, item_id)
+    if not item:
+        raise HTTPException(status_code=404, detail="Action item not found")
+    item.description = payload.description
+    db.add(item)
+    db.flush()
+    db.refresh(item)
+    return ActionItemRead.model_validate(item)

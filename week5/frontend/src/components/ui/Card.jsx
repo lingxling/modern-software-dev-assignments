@@ -3,8 +3,7 @@ import React from 'react'
 export function Card({ children, className = '' }) {
   return (
     <div
-      className={`bg-white rounded-xl shadow-card p-6 transition-all duration-300 hover:shadow-elevated ${className}`}
-      style={{ backgroundColor: 'var(--background)', color: 'var(--foreground)' }}
+      className={`bg-white dark:bg-card rounded-xl shadow-card p-6 transition-all duration-300 hover:shadow-elevated ${className}`}
     >
       {children}
     </div>
@@ -34,7 +33,6 @@ export function CardItem({ children, isHovered = true, className = '' }) {
       className={`p-4 rounded-lg border transition-all duration-300 animate-slide-in ${
         isHovered ? 'hover:shadow-md' : ''
       } ${className}`}
-      style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)', color: 'var(--foreground)' }}
     >
       {children}
     </div>
@@ -43,10 +41,10 @@ export function CardItem({ children, isHovered = true, className = '' }) {
 
 export function CardEmpty({ title, message, icon }) {
   return (
-    <div className="text-center py-12 px-4 bg-secondary-50 rounded-lg" style={{ backgroundColor: 'var(--secondary)', color: 'var(--secondary-foreground)' }}>
+    <div className="text-center py-12 px-4 bg-secondary-50 dark:bg-secondary-800 rounded-lg">
       {icon && <div className="mb-4">{icon}</div>}
-      <h3 className="text-secondary-700 font-medium mb-2" style={{ color: 'var(--secondary-foreground)' }}>{title}</h3>
-      <p className="text-secondary-500" style={{ color: 'var(--muted-foreground)' }}>{message}</p>
+      <h3 className="text-secondary-700 dark:text-secondary-300 font-medium mb-2">{title}</h3>
+      <p className="text-secondary-500 dark:text-secondary-400">{message}</p>
     </div>
   )
 }
@@ -55,8 +53,7 @@ export function CardForm({ children, onSubmit, className = '' }) {
   return (
     <form
       onSubmit={onSubmit}
-      className={`flex flex-col gap-3 mb-8 p-4 bg-secondary-50 rounded-lg ${className}`}
-      style={{ backgroundColor: 'var(--secondary)', color: 'var(--secondary-foreground)' }}
+      className={`flex flex-col gap-3 mb-8 p-4 bg-secondary-50 dark:bg-secondary-800 rounded-lg ${className}`}
     >
       {children}
     </form>

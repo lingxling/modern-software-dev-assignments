@@ -68,18 +68,21 @@ function App() {
     setEditingAction(null)
   }
 
-  const filteredNotes = useMemo(() => 
-    notes.filter(note => 
-      note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      note.content.toLowerCase().includes(searchQuery.toLowerCase())
-    ),
+  const filteredNotes = useMemo(
+    () =>
+      notes.filter(
+        (note) =>
+          note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          note.content.toLowerCase().includes(searchQuery.toLowerCase())
+      ),
     [notes, searchQuery]
   )
 
-  const filteredActionItems = useMemo(() => 
-    actionItems.filter(item => 
-      item.description.toLowerCase().includes(searchQuery.toLowerCase())
-    ),
+  const filteredActionItems = useMemo(
+    () =>
+      actionItems.filter((item) =>
+        item.description.toLowerCase().includes(searchQuery.toLowerCase())
+      ),
     [actionItems, searchQuery]
   )
 
@@ -87,28 +90,31 @@ function App() {
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <NotesSection 
-        notes={filteredNotes} 
-        newNote={newNote} 
-        setNewNote={setNewNote} 
-        handleAddNote={handleAddNote} 
-        editingNote={editingNote} 
-        setEditingNote={setEditingNote} 
-        handleSaveNote={handleSaveNote} 
-        handleCancelEditNote={handleCancelEditNote} 
+      <NotesSection
+        notes={filteredNotes}
+        newNote={newNote}
+        setNewNote={setNewNote}
+        handleAddNote={handleAddNote}
+        editingNote={editingNote}
+        setEditingNote={setEditingNote}
+        handleSaveNote={handleSaveNote}
+        handleCancelEditNote={handleCancelEditNote}
       />
-      <ActionItemsSection 
-        actionItems={filteredActionItems} 
-        newAction={newAction} 
-        setNewAction={setNewAction} 
-        handleAddAction={handleAddAction} 
-        handleCompleteAction={completeAction} 
-        editingAction={editingAction} 
-        setEditingAction={setEditingAction} 
-        handleSaveAction={handleSaveAction} 
-        handleCancelEditAction={handleCancelEditAction} 
+      <ActionItemsSection
+        actionItems={filteredActionItems}
+        newAction={newAction}
+        setNewAction={setNewAction}
+        handleAddAction={handleAddAction}
+        handleCompleteAction={completeAction}
+        editingAction={editingAction}
+        setEditingAction={setEditingAction}
+        handleSaveAction={handleSaveAction}
+        handleCancelEditAction={handleCancelEditAction}
       />
-      <footer role="contentinfo" className="mt-12 text-center text-sm text-secondary-500 dark:text-secondary-400">
+      <footer
+        role="contentinfo"
+        className="mt-12 text-center text-sm text-secondary-500 dark:text-secondary-400"
+      >
         <p>Modern Software Dev Starter © {new Date().getFullYear()}</p>
       </footer>
     </div>

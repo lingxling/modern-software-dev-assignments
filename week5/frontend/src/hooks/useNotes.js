@@ -23,7 +23,7 @@ export function useNotes() {
   const addNote = async (note) => {
     try {
       const newNote = await notesApi.create(note)
-      setNotes(prev => [...prev, newNote])
+      setNotes((prev) => [...prev, newNote])
       return newNote
     } catch (err) {
       setError('Failed to add note')
@@ -34,7 +34,7 @@ export function useNotes() {
   const updateNote = async (id, note) => {
     try {
       const updatedNote = await notesApi.update(id, note)
-      setNotes(prev => prev.map(n => n.id === id ? updatedNote : n))
+      setNotes((prev) => prev.map((n) => (n.id === id ? updatedNote : n)))
       return updatedNote
     } catch (err) {
       setError('Failed to update note')

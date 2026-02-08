@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -9,7 +9,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
+
   --background: #f8fafc;
   --foreground: #0f172a;
   --card: #ffffff;
@@ -86,7 +86,8 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -146,13 +147,16 @@ body {
 }
 
 @keyframes shake {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
-  20%, 60% {
+  20%,
+  60% {
     transform: translateX(-5px);
   }
-  40%, 80% {
+  40%,
+  80% {
     transform: translateX(5px);
   }
 }
@@ -247,27 +251,27 @@ body {
   .content-auto {
     content-visibility: auto;
   }
-  
+
   .text-balance {
     text-wrap: balance;
   }
-  
+
   .text-pretty {
     text-wrap: pretty;
   }
-  
+
   .bg-blur {
     backdrop-filter: blur(8px);
   }
-  
+
   .transition-all-300 {
     transition: all 0.3s ease;
   }
-  
+
   .hover-lift {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  
+
   .hover-lift:hover {
     transform: translateY(-2px);
   }
@@ -294,7 +298,7 @@ svg:not([width]):not([height]) {
 }
 
 /* Favicon SVG should be tiny */
-link[rel="icon"] svg,
+link[rel='icon'] svg,
 head svg {
   width: 32px;
   height: 32px;

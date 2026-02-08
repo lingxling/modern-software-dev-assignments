@@ -23,27 +23,32 @@ async function request(endpoint, options = {}) {
 
 export const notesApi = {
   getAll: () => request('/notes/'),
-  create: (note) => request('/notes/', {
-    method: 'POST',
-    body: JSON.stringify(note),
-  }),
-  update: (id, note) => request(`/notes/${id}`, {
-    method: 'PUT',
-    body: JSON.stringify(note),
-  }),
+  create: (note) =>
+    request('/notes/', {
+      method: 'POST',
+      body: JSON.stringify(note),
+    }),
+  update: (id, note) =>
+    request(`/notes/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(note),
+    }),
 }
 
 export const actionItemsApi = {
   getAll: () => request('/action-items/'),
-  create: (action) => request('/action-items/', {
-    method: 'POST',
-    body: JSON.stringify({ description: action }),
-  }),
-  complete: (id) => request(`/action-items/${id}/complete`, {
-    method: 'PUT',
-  }),
-  update: (id, action) => request(`/action-items/${id}`, {
-    method: 'PUT',
-    body: JSON.stringify(action),
-  }),
+  create: (action) =>
+    request('/action-items/', {
+      method: 'POST',
+      body: JSON.stringify({ description: action }),
+    }),
+  complete: (id) =>
+    request(`/action-items/${id}/complete`, {
+      method: 'PUT',
+    }),
+  update: (id, action) =>
+    request(`/action-items/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(action),
+    }),
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import Button from './ui/Button'
 
 const Header = ({ darkMode, toggleDarkMode }) => {
   return (
@@ -6,11 +7,11 @@ const Header = ({ darkMode, toggleDarkMode }) => {
       <div className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
         <div className="text-center sm:text-left flex-1">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2 dark:text-white">Modern Software Dev Starter</h1>
-          <p className="text-secondary-600 text-base sm:text-lg dark:text-secondary-400 leading-relaxed">A sleek productivity tool for managing notes and tasks</p>
         </div>
-        <button
+        <Button
           onClick={toggleDarkMode}
-          className="p-3 rounded-full bg-secondary-100 dark:bg-secondary-800 transition-all duration-300 hover:bg-secondary-200 dark:hover:bg-secondary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 ripple-effect"
+          variant="ghost"
+          className="p-3 rounded-full ripple-effect"
           aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
         >
           {darkMode ? (
@@ -22,7 +23,7 @@ const Header = ({ darkMode, toggleDarkMode }) => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
             </svg>
           )}
-        </button>
+        </Button>
       </div>
     </header>
   )

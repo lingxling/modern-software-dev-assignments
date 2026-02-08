@@ -38,10 +38,6 @@ function App() {
     }
   }
 
-  const handleEditNote = (note) => {
-    setEditingNote(note)
-  }
-
   const handleSaveNote = async (e) => {
     e.preventDefault()
     if (!editingNote) return
@@ -55,10 +51,6 @@ function App() {
 
   const handleCancelEditNote = () => {
     setEditingNote(null)
-  }
-
-  const handleEditAction = (item) => {
-    setEditingAction(item)
   }
 
   const handleSaveAction = async (e) => {
